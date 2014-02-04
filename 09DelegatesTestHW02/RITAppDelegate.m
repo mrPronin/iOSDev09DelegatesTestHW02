@@ -7,6 +7,9 @@
 //
 
 #import "RITAppDelegate.h"
+#import "RITPatient.h"
+#import "RITDoctor.h"
+#import "RITQuack.h"
 
 @implementation RITAppDelegate
 
@@ -16,6 +19,84 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    // create patient objects
+    RITPatient* patient01   = [[RITPatient alloc] init];
+    patient01.name          = @"Viktor";
+    patient01.temperature   = 36.5f;
+    patient01.simptoms      = nil;
+    
+    RITPatient* patient02   = [[RITPatient alloc] init];
+    patient02.name          = @"Oleg";
+    patient02.temperature   = 39.2f;
+    patient02.simptoms      = [NSSet setWithObjects:
+                               @(RITSimptomsFever), @(RITSimptomsCough),
+                               @(RITSimptomsRunnyNose), @(RITSimptomsHeadAche),
+                               @(RITSimptomsFatigue),
+                               nil
+                               ];
+    
+    RITPatient* patient03   = [[RITPatient alloc] init];
+    patient03.name          = @"Piter";
+    patient03.temperature   = 36.3f;
+    patient03.simptoms      = [NSSet setWithObjects:
+                               @(RITSimptomsAbdominalPain),
+                               nil
+                               ];
+    
+    RITPatient* patient04   = [[RITPatient alloc] init];
+    patient04.name          = @"Sveta";
+    patient04.temperature   = 36.3f;
+    patient04.simptoms      = [NSSet setWithObjects:
+                               @(RITSimptomsNausea),
+                               @(RITSimptomsTasteChange),
+                               @(RITSimptomsBloating),
+                               @(RITSimptomsHeadAche),
+                               nil
+                               ];
+    
+    RITPatient* patient05   = [[RITPatient alloc] init];
+    patient05.name          = @"Olga";
+    patient05.temperature   = 36.3f;
+    patient05.simptoms      = [NSSet setWithObjects:
+                               @(RITSimptomsDryMouth),
+                               nil
+                               ];
+    
+    RITPatient* patient06   = [[RITPatient alloc] init];
+    patient06.name          = @"Michael";
+    patient06.temperature   = 36.3f;
+    patient06.simptoms      = [NSSet setWithObjects:
+                               @(RITSimptomsFatigue),
+                               nil
+                               ];
+    
+    RITPatient* patient07   = [[RITPatient alloc] init];
+    patient07.name          = @"Tanya";
+    patient07.temperature   = 36.3f;
+    patient07.simptoms      = [NSSet setWithObjects:
+                               @(RITSimptomsLossOfAppetite),
+                               nil
+                               ];
+    
+    // create doctor objects
+    RITDoctor*  doctor      = [[RITDoctor alloc] init];
+    RITQuack*   quack01     = [[RITQuack alloc] init];
+    RITQuack*   quack02     = [[RITQuack alloc] init];
+    
+    // form the list of patients
+    NSArray*    patients    = @[patient01, patient02, patient03, patient04, patient05, patient06, patient07];
+    
+    // establish doctors
+    for (RITPatient* patient in patients) {
+        patient.delegate = doctor;
+    }
+    
+    patient06.delegate  = quack01;
+    patient07.delegate  = quack02;
+    
+    [patients makeObjectsPerformSelector:@selector(becameWorse)];
+    
     return YES;
 }
 
